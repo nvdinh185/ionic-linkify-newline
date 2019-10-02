@@ -1,39 +1,37 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons start>
-            <button ion-button menuToggle color="primary">
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
-
-        <ion-title>{{dynamicCards?.title}}</ion-title>
-
-        <ion-buttons end *ngFor="let btn of dynamicCards?.buttons">
-            <button ion-button icon-only color="{{btn.color}}">
-                <ion-icon name="{{btn.icon}}"></ion-icon>
-            </button>
-        </ion-buttons>
-
-    </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col *ngFor="let it of dynamicCards?.items">
-                <ion-card>
-                    <div *ngIf="it.content">
-                        <p text-wrap [innerHtml]="it.content | linkify"></p>
-                        <button ion-button (click)="isShow = !isShow">Xem chi tiết</button>
-                        <div *ngIf="(it.content | linkify:'urlInfos')?.length>0">
-                            <div *ngFor="let urlInfo of it.content | linkify:'urlInfos'; let idx = index;">
-                                <p text-wrap *ngIf="isShow" [innerHtml]="urlInfo.content | newline"></p>
-                                <img *ngIf="isShow" src="{{urlInfo.image}}" />
-                            </div>
-                        </div>
-                    </div>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <!-- 
+        thuộc tính innerHtml nhận vào biến chứa thẻ <a> và chuyển thành thẻ link
+        có thể kích vào tương tự như dùng thẻ <a>
+    -->
+
+    <!-- Biến google chứa thẻ <a> với đường link -->
+    <!-- google = "<a href='https://www.google.com.vn/' target='_blank'>Google</a>" -->
+    <h1 [innerHtml]="google"></h1>
+    <h4>
+        <a href='https://www.google.com.vn/' target='_blank'>Google</a>
+    </h4>
+
+    <!-- 
+        Dùng pipe linkify không có tham số để chuyển từ text bình thường
+        có chứa đường link thành đường link có thể kích vào được 
+        ví dụ: "đây là đường dẫn https://www.google.com.vn/"
+        ==> "đây là đường dẫn <a href='https://www.google.com.vn/' target='_blank'>https://www.google.com.vn/</a>"
+    -->
+
+    <!-- Biến linkGoogle chứa text bình thường, trong đó có chứa đường link -->
+    <!-- linkGoogle = "đây là đường dẫn https://www.google.com.vn/" -->
+    <p [innerHtml]="linkGoogle | linkify"></p>
+
+    <!-- 
+        Dùng pipe linkify có tham số để chuyển link thành một mảng với các thuộc tính
+        hostname, title, image, alt, content, images
+    -->
+    <!-- <h1>{{ linkDantri | linkify:'urlInfos' | json }}</h1> -->
+
+    <div *ngIf="(linkDantri | linkify:'urlInfos')?.length>0">
+        <div *ngFor="let urlInfo of linkDantri | linkify:'urlInfos'">
+            <p text-wrap [innerHtml]="urlInfo.content | newline"></p>
+            <img src="{{ urlInfo.image }}" />
+        </div>
+    </div>
 </ion-content>
