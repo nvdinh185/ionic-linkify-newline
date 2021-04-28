@@ -24,13 +24,14 @@
 
     <!-- 
         Dùng pipe linkify có tham số để chuyển link thành một mảng với các thuộc tính
-        hostname, title, image, alt, content, images
+        hostname, url, alt, title, content, images, image
     -->
     <!-- <h1>{{ linkDantri | linkify:'urlInfos' | json }}</h1> -->
+    <!-- <h1>{{ linkTuoiTre | linkify:'urlInfos' | json }}</h1> -->
 
     <div *ngIf="(linkDantri | linkify:'urlInfos')?.length>0">
         <div *ngFor="let urlInfo of linkDantri | linkify:'urlInfos'">
-            <p text-wrap [innerHtml]="urlInfo.content | newline"></p>
+            <p [innerHtml]="urlInfo.content | newline"></p>
             <img src="{{ urlInfo.image }}" />
         </div>
     </div>

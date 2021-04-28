@@ -38,11 +38,13 @@ export class LinkifyPipe implements PipeTransform {
 
         if (isUrl === 'urlInfos') {
             let urlInfos = [];
+            // console.log(links.length);
             links.forEach(async el => {
                 try {
                     let urlInfo = await this.apiAuth.getDynamicUrl("https://c3.mobifone.vn/api/ext-public/shot-info-url?url=" + el);
                     urlInfos.push(urlInfo);
-                } catch{ }
+                } catch { }
+                // console.log(urlInfos);
             })
             return urlInfos;
         }
